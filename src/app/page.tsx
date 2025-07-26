@@ -5,20 +5,14 @@ import type React from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { useEffect, useRef, useState } from "react"
-import {
-  Github,
-  Linkedin,
+import {                               
   Mail,
   ExternalLink,
   ChevronRight,
   Menu,
   X,
   Phone,
-  Building,
   Check,
-  Briefcase,
-  BookOpen,
-  Award,
 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -27,7 +21,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { cn } from "@/lib/utils"
 import { useResumeData } from "@/hooks/useResumeData"
 import placeholderImage from "@/assets/compliance.jpg";
-import appDemoImage from "@/assets/trading.jpg";
+import appDemoImage from "@/assets/trading.jpg"; 
 import { CardSpotlight } from "@/components/ui/card-spotlight";
 
 export default function Home() {
