@@ -4,7 +4,7 @@ import type React from "react"
 
 import Link from "next/link"
 import Image from "next/image"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState, useMemo } from "react"
 import {                               
   Mail,
   ExternalLink,
@@ -37,13 +37,14 @@ export default function Home() {
   const whyChooseUsRef = useRef<HTMLElement>(null)
   const contactRef = useRef<HTMLElement>(null)
 
-  const sectionRefs = {
+
+  const sectionRefs = useMemo(() => ({
     hero: heroRef,
     about: aboutRef,
     services: servicesRef,
     whyChooseUs: whyChooseUsRef,
     contact: contactRef,
-  }
+  }), []); // The empty dependency array means it will be created only once
 
   useEffect(() => {
     const handleScroll = () => {
@@ -62,7 +63,8 @@ export default function Home() {
 
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
-  }, [sectionRefs])
+  }, [sectionRefs]) // Now this dependency is stable
+
 
   const scrollToSection = (sectionId: string) => {
     const section = sectionRefs[sectionId as keyof typeof sectionRefs].current

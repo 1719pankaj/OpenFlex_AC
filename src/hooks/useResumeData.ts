@@ -1,17 +1,16 @@
-import { useState, useEffect } from 'react';
-import resumeData from '@/config/resume-data.json';
+// src/hooks/useResumeData.ts
 
-export interface ResumeData {
-  personal: {
+import { useState, useEffect } from 'react';
+// It's fine to keep the filename as is, or you can rename it to company-data.json
+import companyDataJson from '@/config/resume-data.json'; 
+
+// NEW: Define an interface that matches the Accountants Point JSON structure
+export interface CompanyData {
+  company: {
     name: string;
-    title: string;
     email: string;
     phone: string;
-    location: string;
-    website: string;
-    linkedin: string;
-    github: string;
-    resumeUrl: string;
+    website?: string; // Optional property
   };
   theme: {
     primaryColor: string;
@@ -28,74 +27,44 @@ export interface ResumeData {
     ctaButtons: {
       primary: string;
       secondary: string;
-      resume: string;
     };
   };
   about: {
     title: string;
-    subtitle: string;
     description: string[];
-    highlights: string[];
-    availability: string;
   };
-  stats: Array<{ value: string; label: string }>;
-  skills: {
-    technical: Array<{ name: string; percentage: number }>;
-    tools: Array<{ name: string; percentage: number }>;
-    devTools: string[];
-    languages: Array<{ name: string; percentage: number }>;
+  services: {
+    subtitle: string;
+    items: Array<{
+      title: string;
+      description: string;
+      features: string[];
+    }>;
   };
-  projects: Array<{
+  whyChooseUs: Array<{
     title: string;
     description: string;
-    technologies: string[];
-    githubUrl: string;
-    demoUrl: string | null;
-  }>;
-  experience: Array<{
-    title: string;
-    company: string;
-    period: string;
-    description: string;
-    responsibilities: string[];
-  }>;
-  education: Array<{
-    degree: string;
-    institution: string;
-    period: string;
-    description: string;
-    gpa: string;
-  }>;
-  certifications: Array<{
-    title: string;
-    issuer: string;
-    date: string;
-    description: string;
-  }>;
-  faq: Array<{
-    question: string;
-    answer: string;
   }>;
   contact: {
-    title: string;
     subtitle: string;
-    availability: string;
-    mapUrl: string;
+    cta: string;
   };
 }
 
+
 export const useResumeData = () => {
-  const [data, setData] = useState<ResumeData | null>(null);
+  // Use the new CompanyData interface here
+  const [data, setData] = useState<CompanyData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     try {
-      // Since we're importing the JSON directly, we can set it immediately
-      setData(resumeData as ResumeData);
+      // Cast the imported JSON to our new CompanyData type
+      setData(companyDataJson as CompanyData);
       setIsLoading(false);
-    } catch {
-      setError('Failed to load resume data');
+    } catch (e) {
+      setError('Failed to load company data'+ e);
       setIsLoading(false);
     }
   }, []);
