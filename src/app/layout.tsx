@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Pankaj Roy",
-  description: "Mobile Developer",
+  title: "Accountant's Point",
+  description: "Accounts Simplified",
 };
 
 export default function RootLayout({

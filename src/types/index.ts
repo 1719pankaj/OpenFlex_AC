@@ -31,16 +31,31 @@ export interface About {
   description: string[];
 }
 
+// FIX: Add a type for service images
 export interface ServiceItem {
   title: string;
   description: string;
   features: string[];
+  image: string; // Add image property
 }
 
 export interface Services {
   subtitle: string;
   items: ServiceItem[];
 }
+
+// NEW: Define the shape of a single client logo
+export interface ClientLogo {
+  src: string;
+  alt: string;
+}
+
+// NEW: Define the shape for the entire clients section
+export interface Clients {
+  title: string;
+  logos: ClientLogo[];
+}
+
 
 export interface WhyChooseUsItem {
   title: string;
@@ -59,6 +74,7 @@ export interface ResumeData {
   hero: Hero;
   about: About;
   services: Services;
+  clients: Clients; // <-- FIX: Add the new clients property here
   whyChooseUs: WhyChooseUsItem[];
   contact: Contact;
 }

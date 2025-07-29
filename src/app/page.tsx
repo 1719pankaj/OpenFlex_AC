@@ -1,31 +1,44 @@
 "use client"
 
-import type React from "react"
-
-import Link from "next/link"
+import { useEffect, useMemo, useRef, useState } from "react"
+import type { StaticImageData } from "next/image"
 import Image from "next/image"
-import { useEffect, useRef, useState, useMemo } from "react"
-import {                               
-  Mail,
-  ExternalLink,
-  ChevronRight,
-  Menu,
-  X,
-  Phone,
-  Check,
-} from "lucide-react"
+import Link from "next/link"
+import { Check, ChevronRight, Mail, Menu, Phone, X } from "lucide-react"
 
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
-import { cn } from "@/lib/utils"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
 import { useResumeData } from "@/hooks/useResumeData"
-import placeholderImage from "@/assets/compliance.jpg";
-import appDemoImage from "@/assets/trading.jpg"; 
-import { CardSpotlight } from "@/components/ui/card-spotlight";
+import { cn } from "@/lib/utils"
+
+// Import your new images
+import brandLogo from "@/assets/brand_logo.png"
+import aboutImage from "@/assets/trading.jpg"
+import heroImage from "@/assets/Accountant_Point.png"
+import client1 from "@/assets/all_india_computers_client1.png"
+import client2 from "@/assets/aakash_construction_client2.png"
+import client3 from "@/assets/a_pro_ppf_clinet3.png"
+import client4 from "@/assets/detailing_devils_clinet4.png"
+import gstImage from "@/assets/GST_stock_image1.jpeg"
+import itrImage from "@/assets/ITR_stock_image2.jpeg"
+import tallyImage from "@/assets/Tally_stock_image3.jpeg"
+
+const serviceImageMap: Record<string, StaticImageData> = {
+  "GST_stock_image1.jpeg": gstImage,
+  "ITR_stock_image2.jpeg": itrImage,
+  "Tally_stock_image3.jpeg": tallyImage,
+}
+
+const clientLogoMap: Record<string, { src: StaticImageData; alt: string }> = {
+  "all_india_computers_client1.png": { src: client1, alt: "All India Computers Logo" },
+  "aakash_construction_client2.png": { src: client2, alt: "Aakash Construction Logo" },
+  "a_pro_ppf_clinet3.png": { src: client3, alt: "A-Pro PPF Logo" },
+  "detailing_devils_clinet4.png": { src: client4, alt: "Detailing Devils Logo" },
+}
 
 export default function Home() {
-  const { data: companyData, isLoading, error } = useResumeData();
+  const { data: companyData, isLoading, error } = useResumeData()
   const [activeSection, setActiveSection] = useState("hero")
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [scrollY, setScrollY] = useState(0)
@@ -37,14 +50,16 @@ export default function Home() {
   const whyChooseUsRef = useRef<HTMLElement>(null)
   const contactRef = useRef<HTMLElement>(null)
 
-
-  const sectionRefs = useMemo(() => ({
-    hero: heroRef,
-    about: aboutRef,
-    services: servicesRef,
-    whyChooseUs: whyChooseUsRef,
-    contact: contactRef,
-  }), []); // The empty dependency array means it will be created only once
+  const sectionRefs = useMemo(
+    () => ({
+      hero: heroRef,
+      about: aboutRef,
+      services: servicesRef,
+      whyChooseUs: whyChooseUsRef,
+      contact: contactRef,
+    }),
+    [],
+  )
 
   useEffect(() => {
     const handleScroll = () => {
@@ -63,11 +78,10 @@ export default function Home() {
 
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
-  }, [sectionRefs]) // Now this dependency is stable
+  }, [sectionRefs])
 
-
-  const scrollToSection = (sectionId: string) => {
-    const section = sectionRefs[sectionId as keyof typeof sectionRefs].current
+  const scrollToSection = (sectionId: keyof typeof sectionRefs) => {
+    const section = sectionRefs[sectionId].current
     if (section) {
       window.scrollTo({
         top: section.offsetTop - 80,
@@ -81,22 +95,22 @@ export default function Home() {
     return (
       <div className="flex min-h-screen items-center justify-center bg-black text-white">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-[#d5ff5f] mx-auto mb-4"></div>
+          <div className="mx-auto mb-4 h-32 w-32 animate-spin rounded-full border-b-2 border-[#8B0000]"></div>
           <p>Loading company data...</p>
         </div>
       </div>
-    );
+    )
   }
 
   if (error || !companyData) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-black text-white">
         <div className="text-center">
-          <p className="text-red-400 mb-4">Error: {error || 'Failed to load company data'}</p>
+          <p className="mb-4 text-red-400">Error: {error || "Failed to load company data"}</p>
           <p>Please check the configuration file.</p>
         </div>
       </div>
-    );
+    )
   }
 
   return (
@@ -108,62 +122,47 @@ export default function Home() {
           scrollY > 50 ? "bg-black/90 shadow-sm backdrop-blur-sm" : "bg-transparent",
         )}
       >
-        <div className="container max-w-full px-4 md:px-6 flex h-16 items-center justify-between">
-          <div className="font-bold">
-            <Link href="/" className="flex items-center gap-2 text-xl">
-              <span>{companyData.company.name}</span>
-              <span className="text-[#d5ff5f]">.</span>
-            </Link>
-          </div>
+        <div className="container mx-auto flex h-20 max-w-full items-center justify-between px-4 md:px-6">
+          <Link href="/" className="flex items-center gap-3">
+            <Image src={brandLogo} alt={`${companyData.company.name} logo`} height={40} />
+            <span className="hidden font-bold text-xl sm:inline">
+              {companyData.company.name}
+              <span className="text-[#8B0000]">.</span>
+            </span>
+          </Link>
 
-          <button className="md:hidden z-50" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+          <button className="z-50 md:hidden" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
             {mobileMenuOpen ? <X className="h-6 w-6 text-white" /> : <Menu className="h-6 w-6 text-white" />}
           </button>
 
           <div
             className={cn(
-              "fixed inset-0 bg-black flex flex-col items-center justify-center gap-8 transition-all duration-300 md:hidden",
+              "fixed inset-0 z-40 flex flex-col items-center justify-center gap-8 bg-black transition-all duration-300 md:hidden",
               mobileMenuOpen ? "opacity-100 visible" : "opacity-0 invisible",
             )}
           >
-            <NavLink active={activeSection === "about"} onClick={() => scrollToSection("about")}>
-              About
-            </NavLink>
-            <NavLink active={activeSection === "services"} onClick={() => scrollToSection("services")}>
-              Services
-            </NavLink>
-            <NavLink active={activeSection === "whyChooseUs"} onClick={() => scrollToSection("whyChooseUs")}>
-              Why Us
-            </NavLink>
-            <NavLink active={activeSection === "contact"} onClick={() => scrollToSection("contact")}>
-              Contact
-            </NavLink>
+            <NavLink active={activeSection === "about"} onClick={() => scrollToSection("about")}>About</NavLink>
+            <NavLink active={activeSection === "services"} onClick={() => scrollToSection("services")}>Services</NavLink>
+            <NavLink active={activeSection === "whyChooseUs"} onClick={() => scrollToSection("whyChooseUs")}>Why Us</NavLink>
+            <NavLink active={activeSection === "contact"} onClick={() => scrollToSection("contact")}>Contact</NavLink>
           </div>
 
-          <nav className="hidden md:flex gap-6">
-            <NavLink active={activeSection === "about"} onClick={() => scrollToSection("about")}>
-              About
-            </NavLink>
-            <NavLink active={activeSection === "services"} onClick={() => scrollToSection("services")}>
-              Services
-            </NavLink>
-             <NavLink active={activeSection === "whyChooseUs"} onClick={() => scrollToSection("whyChooseUs")}>
-              Why Choose Us
-            </NavLink>
-            <NavLink active={activeSection === "contact"} onClick={() => scrollToSection("contact")}>
-              Contact
-            </NavLink>
+          <nav className="hidden gap-6 md:flex">
+            <NavLink active={activeSection === "about"} onClick={() => scrollToSection("about")}>About</NavLink>
+            <NavLink active={activeSection === "services"} onClick={() => scrollToSection("services")}>Services</NavLink>
+            <NavLink active={activeSection === "whyChooseUs"} onClick={() => scrollToSection("whyChooseUs")}>Why Choose Us</NavLink>
+            <NavLink active={activeSection === "contact"} onClick={() => scrollToSection("contact")}>Contact</NavLink>
           </nav>
 
-          <div className="hidden md:flex items-center gap-2">
+          <div className="hidden items-center gap-2 md:flex">
             <Link href={`tel:${companyData.company.phone}`}>
-              <Button variant="ghost" size="icon" className="text-[d5ff5f] hover:text-black">
+              <Button variant="ghost" size="icon" className="text-[#8B0000] hover:text-white">
                 <Phone className="h-5 w-5" />
                 <span className="sr-only">Phone</span>
               </Button>
             </Link>
             <Link href={`mailto:${companyData.company.email}`}>
-              <Button variant="ghost" size="icon" className="text-[d5ff5f] hover:text-black">
+              <Button variant="ghost" size="icon" className="text-[#8B0000] hover:text-white">
                 <Mail className="h-5 w-5" />
                 <span className="sr-only">Email</span>
               </Button>
@@ -174,253 +173,167 @@ export default function Home() {
 
       <main className="flex-1">
         {/* Hero Section */}
-        <section ref={sectionRefs.hero} className="relative min-h-screen flex items-center">
-          <div className="container max-w-full px-4 md:px-6 z-10">
+        <section ref={heroRef} className="relative flex min-h-[calc(100vh-5rem)] items-center">
+          <div className="container z-10 mx-auto max-w-full px-4 md:px-6">
             <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px]">
               <div className="flex flex-col justify-center space-y-8">
                 <div className="space-y-4">
-                   <div
-                    className="inline-block animate-slide-up opacity-0"
-                    style={{ animationDelay: "0.2s", animationFillMode: "forwards" }}
-                  >
-                    <Badge className="px-4 py-1 text-sm bg-[#f5ffdd] text-black border-[#e7ffac] mb-4">
-                      {companyData.hero.badge}
-                    </Badge>
+                  <div className="inline-block animate-slide-up opacity-0" style={{ animationDelay: "0.2s", animationFillMode: "forwards" }}>
+                    <Badge className="mb-4 border-[#c9a6a6] bg-[#f2e6e6] px-4 py-1 text-sm text-black">{companyData.hero.badge}</Badge>
                   </div>
-                  <h1
-                    className="text-4xl font-bold tracking-tighter sm:text-6xl xl:text-7xl/none animate-slide-up opacity-0"
-                    style={{ animationDelay: "0.4s", animationFillMode: "forwards" }}
-                  >
+                  <h1 className="animate-slide-up text-4xl font-bold tracking-tighter opacity-0 sm:text-6xl xl:text-7xl/none" style={{ animationDelay: "0.4s", animationFillMode: "forwards" }}>
                     {companyData.hero.title}
-                    <span className="text-[#d5ff5f]">.</span>
+                    <span className="text-[#8B0000]">.</span>
                   </h1>
-                  <p
-                    className="max-w-[600px] text-gray-500 md:text-xl animate-slide-up opacity-0"
-                    style={{ animationDelay: "0.6s", animationFillMode: "forwards" }}
-                  >
+                  <p className="max-w-[600px] animate-slide-up text-gray-400 opacity-0 md:text-xl" style={{ animationDelay: "0.6s", animationFillMode: "forwards" }}>
                     {companyData.hero.subtitle}
                   </p>
                 </div>
-                <div
-                  className="flex flex-col gap-4 sm:flex-row animate-slide-up opacity-0"
-                  style={{ animationDelay: "0.8s", animationFillMode: "forwards" }}
-                >
-                  <Button
-                    className="bg-[#d5ff5f] hover:bg-[#c4ee4e] text-black border-0 rounded-none px-8"
-                    onClick={() => scrollToSection("services")}
-                  >
-                    {companyData.hero.ctaButtons.primary}
-                    <ChevronRight className="ml-2 h-4 w-4" />
+                <div className="flex animate-slide-up flex-col gap-4 opacity-0 sm:flex-row" style={{ animationDelay: "0.8s", animationFillMode: "forwards" }}>
+                  <Button className="rounded-none border-0 bg-[#8B0000] px-8 text-white hover:bg-[#A52A2A]" onClick={() => scrollToSection("services")}>
+                    {companyData.hero.ctaButtons.primary} <ChevronRight className="ml-2 h-4 w-4" />
                   </Button>
-                  <Button
-                    variant="outline"
-                    className="border-[#d5ff5f] text-black hover:bg-[#f5ffdd] rounded-none px-8"
-                    onClick={() => scrollToSection("contact")}
-                  >
+                  <Button className="rounded-none border-0 bg-[#8B0000] px-8 text-white hover:bg-[#A52A2A]" onClick={() => scrollToSection("contact")}>
                     {companyData.hero.ctaButtons.secondary}
                   </Button>
                 </div>
+                {/* Trusted By Section - Integrated into Hero */}
+                <div className="animate-slide-up opacity-0 pt-12" style={{ animationDelay: "1.0s", animationFillMode: "forwards" }}>
+                  <p className="mb-6 text-base font-semibold text-gray-300">{companyData.clients.title}</p>
+                  <div className="flex flex-wrap items-center gap-x-12 gap-y-6">
+                    {companyData.clients.logos.map((logo) => {
+                      const clientLogo = clientLogoMap[logo.src]
+                      return <Image key={logo.alt} src={clientLogo.src} alt={clientLogo.alt} height={100} className="object-contain" />
+                    })}
+                  </div>
+                </div>
               </div>
-              <div
-                className="flex items-center justify-center animate-slide-up opacity-0"
-                style={{ animationDelay: "1.2s", animationFillMode: "forwards" }}
-              >
+              <div className="flex animate-slide-up items-center justify-center opacity-0" style={{ animationDelay: "1.2s", animationFillMode: "forwards" }}>
                 <div className="relative">
-                  <div className="absolute inset-0 rounded-none bg-[#d5ff5f] blur-3xl opacity-10 animate-pulse" />
-                  <Image
-                    src={placeholderImage}
-                    width={500}
-                    height={500}
-                    alt="Accountants Point"
-                    className="relative rounded-none aspect-square object-cover border-4 border-[#d5ff5f]/30 p-1"
-                  />
+                  <div className="absolute inset-0 animate-pulse rounded-none bg-[#8B0000] opacity-20 blur-3xl" />
+                  <Image src={heroImage} width={450} alt="Financial Compliance" className="relative rounded-none border-4 border-[#8B0000]/30 object-cover p-1" />
                 </div>
               </div>
             </div>
-          </div>
-          <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="rounded-none hover:bg-transparent hover:text-[#d5ff5f]"
-              onClick={() => scrollToSection("about")}
-            >
-              <ChevronRight className="h-5 w-5 rotate-90" />
-              <span className="sr-only">Scroll Down</span>
-            </Button>
           </div>
         </section>
 
         {/* About Section */}
-        <section id="about" ref={sectionRefs.about} className="w-full py-20 md:py-32 relative bg-zinc-900">
-          <div className="container max-w-full px-4 md:px-6 relative">
-             <div className="grid md:grid-cols-2 gap-10 items-center">
-               <div>
-                  <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl mb-6">
-                    {companyData.about.title.split(' ').map((word, index) => (
-                      <span key={index}>
-                        {word === 'POINT,' ? <span className="text-[#d5ff5f]">{word}</span> : word}
-                        {index < companyData.about.title.split(' ').length - 1 && ' '}
-                      </span>
-                    ))}
-                  </h2>
-                 {companyData.about.description.map((paragraph, index) => (
-                  <p key={index} className="text-white mb-4">
-                    {paragraph}
-                  </p>
+        <section id="about" ref={aboutRef} className="w-full bg-zinc-900 py-20 md:py-32">
+          <div className="container mx-auto max-w-full px-4 md:px-6">
+            <div className="grid items-center gap-10 md:grid-cols-2">
+              <div>
+                <h2 className="mb-6 text-3xl font-bold tracking-tighter sm:text-5xl">
+                  {companyData.about.title.split(" ").map((word, index) => (
+                    <span key={index}>
+                      {word === "POINT," ? <span className="text-[#8B0000]">{word}</span> : word}
+                      {index < companyData.about.title.split(" ").length - 1 && " "}
+                    </span>
+                  ))}
+                </h2>
+                {companyData.about.description.map((paragraph, index) => (
+                  <p key={index} className="mb-4 text-gray-300">{paragraph}</p>
                 ))}
-               </div>
-               <div className="relative">
-                 <Image
-                    src={appDemoImage} // Replace with a relevant image for the accounting firm
-                    width={1000}
-                    height={600}
-                    alt="Office"
-                    className="object-cover border-8 border-zinc-800 shadow-lg"
-                  />
-               </div>
-             </div>
+              </div>
+              <div className="relative">
+                <Image src={aboutImage} width={1000} height={600} alt="Business meeting" className="border-8 border-zinc-800 object-cover shadow-lg" />
+              </div>
+            </div>
           </div>
         </section>
 
         {/* Services Section */}
-        <section id="services" ref={sectionRefs.services} className="w-full py-20 md:py-32 relative">
-          <div className="container max-w-full px-4 md:px-6 relative">
-            <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
-              <div className="space-y-2">
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
-                  Our <span className="text-[#d5ff5f]">Services</span>
-                </h2>
-                <p className="max-w-[900px] text-gray-500 md:text-xl/relaxed">
-                  {companyData.services.subtitle}
-                </p>
-              </div>
+        <section id="services" ref={servicesRef} className="w-full py-20 md:py-32">
+          <div className="container mx-auto max-w-full px-4 md:px-6">
+            <div className="mb-12 flex flex-col items-center justify-center space-y-4 text-center">
+              <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">Our <span className="text-[#8B0000]">Services</span></h2>
+              <p className="max-w-[900px] text-gray-400 md:text-xl/relaxed">{companyData.services.subtitle}</p>
             </div>
-
-            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 w-full max-w-7xl mx-auto">
-              {companyData.services.items.map((service, index) => (
-                <ServiceCard
-                  key={index}
-                  title={service.title}
-                  description={service.description}
-                  features={service.features}
-                />
+            <div className="mx-auto grid w-full max-w-7xl grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+              {companyData.services.items.map((service) => (
+                <ServiceCard key={service.title} title={service.title} description={service.description} features={service.features} image={serviceImageMap[service.image]} />
               ))}
             </div>
           </div>
         </section>
-        
-        {/* Why Choose Us Section */}
-        <section id="whyChooseUs" ref={sectionRefs.whyChooseUs} className="w-full py-20 md:py-32 relative bg-zinc-900">
-            <div className="container max-w-full px-4 md:px-6 relative">
-                <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
-                    <div className="space-y-2">
-                        <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-white">
-                        Why Choose <span className="text-[#d5ff5f]">Us?</span>
-                        </h2>
-                        <p className="max-w-[900px] text-gray-400 md:text-xl/relaxed">
-                        Your dedicated financial partner for stability and growth.
-                        </p>
-                    </div>
-                </div>
 
-                <div className="max-w-3xl mx-auto">
-                <Accordion type="single" collapsible className="w-full">
-                    {companyData.whyChooseUs.map((item, index) => (
-                    <AccordionItem key={index} value={`item-${index}`} className="border-b border-gray-200">
-                        <AccordionTrigger className="text-left font-medium py-4 hover:text-[#d5ff5f] hover:no-underline">
-                        {item.title}
-                        </AccordionTrigger>
-                        <AccordionContent className="text-white pb-4">{item.description}</AccordionContent>
-                    </AccordionItem>
-                    ))}
-                </Accordion>
-                </div>
+        {/* Why Choose Us Section */}
+        <section id="whyChooseUs" ref={whyChooseUsRef} className="w-full bg-zinc-900 py-20 md:py-32">
+          <div className="container mx-auto max-w-full px-4 md:px-6">
+            <div className="mb-12 flex flex-col items-center justify-center space-y-4 text-center">
+              <h2 className="text-3xl font-bold tracking-tighter text-white sm:text-5xl">Why Choose <span className="text-[#8B0000]">Us?</span></h2>
+              <p className="max-w-[900px] text-gray-400 md:text-xl/relaxed">Your dedicated financial partner for stability and growth.</p>
             </div>
+            <div className="mx-auto max-w-3xl">
+              <Accordion type="single" collapsible className="w-full">
+                {companyData.whyChooseUs.map((item, index) => (
+                  <AccordionItem key={item.title} value={`item-${index}`} className="border-b border-gray-700">
+                    <AccordionTrigger className="py-4 text-left font-medium text-white no-underline hover:text-[#8B0000] hover:no-underline">{item.title}</AccordionTrigger>
+                    <AccordionContent className="pb-4 text-gray-300">{item.description}</AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
+            </div>
+          </div>
         </section>
 
-
         {/* Contact Section */}
-        <section id="contact" ref={sectionRefs.contact} className="w-full py-20 md:py-32 relative">
-          <div className="container max-w-full px-4 md:px-6 relative">
-            <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
-              <div className="space-y-2">
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
-                  Get In <span className="text-[#d5ff5f]">Touch</span>
-                </h2>
-                <p className="max-w-[900px] text-gray-500 md:text-xl/relaxed">
-                  {companyData.contact.subtitle}
-                </p>
-              </div>
+        <section id="contact" ref={contactRef} className="w-full py-20 md:py-32">
+          <div className="container mx-auto max-w-full px-4 md:px-6">
+            <div className="mb-12 flex flex-col items-center justify-center space-y-4 text-center">
+              <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">Get In <span className="text-[#8B0000]">Touch</span></h2>
+              <p className="max-w-[900px] text-gray-400 md:text-xl/relaxed">{companyData.contact.subtitle}</p>
             </div>
-            <div className="bg-zinc-800 p-8 max-w-2xl mx-auto">
-                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div className="flex items-center gap-4">
-                      <div className="p-3 rounded-full bg-[#d5ff5f]">
-                        <Phone className="h-6 w-6 text-black" />
-                      </div>
-                      <div>
-                        <p className="text-sm text-gray-500">Phone</p>
-                        <a href={`tel:${companyData.company.phone}`} className="hover:text-[#d5ff5f]">
-                          {companyData.company.phone}
-                        </a>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-4">
-                      <div className="p-3 rounded-full bg-[#d5ff5f]">
-                        <Mail className="h-6 w-6 text-black" />
-                      </div>
-                      <div>
-                        <p className="text-sm text-gray-500">Email</p>
-                        <a href={`mailto:${companyData.company.email}`} className="hover:text-[#d5ff5f]">
-                          {companyData.company.email}
-                        </a>
-                      </div>
-                    </div>
-                    {companyData.company.website && (
-                         <div className="flex items-center gap-4">
-                            <div className="p-3 rounded-full bg-[#d5ff5f]">
-                                <ExternalLink className="h-6 w-6 text-black" />
-                            </div>
-                            <div>
-                                <p className="text-sm text-gray-500">Website</p>
-                                <a href={companyData.company.website} target="_blank" rel="noopener noreferrer" className="hover:text-[#d5ff5f]">
-                                {companyData.company.website.replace('https://', '')}
-                                </a>
-                            </div>
-                         </div>
-                    )}
-                 </div>
-                 <div className="text-center mt-8">
-                    <Button
-                        className="bg-[#d5ff5f] hover:bg-[#c4ee4e] text-black border-0 rounded-none px-8"
-                        onClick={() => scrollToSection("contact")}
-                    >
-                        {companyData.contact.cta}
-                    </Button>
-                 </div>
+            <div className="mx-auto max-w-2xl bg-zinc-900 p-8">
+              <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+                <div className="flex items-center gap-4">
+                  <div className="rounded-full bg-[#8B0000] p-3">
+                    <Phone className="h-6 w-6 text-white" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-400">Phone</p>
+                    <a href={`tel:${companyData.company.phone}`} className="hover:text-[#8B0000]">{companyData.company.phone}</a>
+                  </div>
+                </div>
+                <div className="flex items-center gap-4">
+                  <div className="rounded-full bg-[#8B0000] p-3">
+                    <Mail className="h-6 w-6 text-white" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-400">Email</p>
+                    <a href={`mailto:${companyData.company.email}`} className="hover:text-[#8B0000]">{companyData.company.email}</a>
+                  </div>
+                </div>
+              </div>
+              <div className="mt-8 text-center">
+                <Button asChild className="rounded-none border-0 bg-[#8B0000] px-8 text-white hover:bg-[#A52A2A]">
+                  <Link href={`mailto:${companyData.company.email}?subject=Consultation Request`}>
+                    {companyData.contact.cta}
+                  </Link>
+                </Button>
+              </div>
             </div>
           </div>
         </section>
       </main>
 
       {/* Footer */}
-      <footer className="w-full border-t border-gray-700 py-8 bg-black">
-        <div className="container max-w-full flex flex-col items-center justify-between gap-4 md:flex-row px-4 md:px-6">
+      <footer className="w-full border-t border-gray-800 bg-black py-8">
+        <div className="container mx-auto flex max-w-full flex-col items-center justify-between gap-4 px-4 md:flex-row md:px-6">
           <p className="text-sm text-gray-500">© {new Date().getFullYear()} {companyData.company.name}. All rights reserved.</p>
           <div className="flex items-center gap-4">
-            <Link href={`tel:${companyData.company.phone}`}>
-              <Button variant="ghost" size="icon" className="text-[d5ff5f] hover:text-[#d5ff5f] hover:bg-transparent">
+            <Button asChild variant="ghost" size="icon" className="text-[#8B0000] hover:text-white">
+              <Link href={`tel:${companyData.company.phone}`}>
                 <Phone className="h-4 w-4" />
                 <span className="sr-only">Phone</span>
-              </Button>
-            </Link>
-            <Link href={`mailto:${companyData.company.email}`}>
-              <Button variant="ghost" size="icon" className="text-[d5ff5f] hover:text-[#d5ff5f] hover:bg-transparent">
+              </Link>
+            </Button>
+            <Button asChild variant="ghost" size="icon" className="text-[#8B0000] hover:text-white">
+              <Link href={`mailto:${companyData.company.email}`}>
                 <Mail className="h-4 w-4" />
                 <span className="sr-only">Email</span>
-              </Button>
-            </Link>
+              </Link>
+            </Button>
           </div>
         </div>
       </footer>
@@ -428,50 +341,31 @@ export default function Home() {
   )
 }
 
-
 function NavLink({ active, children, onClick }: { active: boolean; children: React.ReactNode; onClick: () => void }) {
   return (
-    <button
-      onClick={onClick}
-      className={cn(
-        "text-sm font-medium transition-colors hover:text-[#d5ff5f] relative",
-        active ? "text-[#d5ff5f]" : "text-white",
-      )}
-    >
+    <button onClick={onClick} className={cn("relative text-sm font-medium transition-colors hover:text-[#8B0000]", active ? "text-[#8B0000]" : "text-white")}>
       {children}
-      <span
-        className={cn(
-          "absolute -bottom-1 left-0 h-0.5 bg-[#d5ff5f] transition-all duration-300",
-          active ? "w-full" : "w-0",
-        )}
-      />
+      <span className={cn("absolute -bottom-1 left-0 h-0.5 bg-[#8B0000] transition-all duration-300", active ? "w-full" : "w-0")} />
     </button>
   )
 }
 
-function ServiceCard({
-  title,
-  description,
-  features,
-}: {
-  title: string;
-  description: string;
-  features: string[];
-}) {
+function ServiceCard({ title, description, features, image }: { title: string; description: string; features: string[]; image: StaticImageData }) {
   return (
-    <CardSpotlight className="h-full flex flex-col p-6">
-      <div className="flex-grow">
-        <h3 className="text-xl font-bold relative z-20 mt-2 text-white">{title}</h3>
-        <p className="text-neutral-300 mt-4 relative z-20">{description}</p>
-        <ul className="mt-4 space-y-2 relative z-20">
-          {features.map((feature, index) => (
-            <li key={index} className="flex items-start">
-              <Check className="h-5 w-5 text-[#d5ff5f] mr-2 mt-1 flex-shrink-0" />
-              <span className="text-white">{feature}</span>
+    <div className="flex h-full flex-col border border-zinc-800 bg-zinc-900 transition-colors duration-300 hover:border-[#8B0000]">
+      <Image src={image} alt={title} className="h-48 w-full object-cover" />
+      <div className="flex flex-grow flex-col p-6">
+        <h3 className="text-xl font-bold text-white">{title}</h3>
+        <p className="mt-2 flex-grow text-gray-400">{description}</p>
+        <ul className="mt-4 space-y-2">
+          {features.map((feature) => (
+            <li key={feature} className="flex items-start">
+              <Check className="mr-2 mt-1 h-5 w-5 flex-shrink-0 text-[#8B0000]" />
+              <span className="text-gray-300">{feature}</span>
             </li>
           ))}
         </ul>
       </div>
-    </CardSpotlight>
-  );
+    </div>
+  )
 }

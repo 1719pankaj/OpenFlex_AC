@@ -1,14 +1,13 @@
 {
   "company": {
     "name": "ACCOUNTANTS POINT",
-    "email": "[Your Email Address]",
-    "phone": "[Your Phone Number]",
-    "website": "[Your Website Address, if any]"
+    "email": "avitshaw@yahoo.com",
+    "phone": "+91 9123740484"
   },
   "theme": {
-    "primaryColor": "#d5ff5f",
+    "primaryColor": "#8B0000",
     "secondaryColor": "#000000",
-    "accentColor": "#c4ee4e",
+    "accentColor": "#A52A2A",
     "textColor": "#ffffff",
     "backgroundColor": "#000000",
     "zincBackground": "#18181b"
@@ -35,35 +34,46 @@
     "items": [
       {
         "title": "GST & TDS Compliance",
-        "description": "Simplified & Stress-Free. Navigating the world of Goods and Services Tax (GST) and Tax Deducted at Source (TDS) can be a minefield of changing regulations and strict deadlines. Our experts ensure you are always 100% compliant, saving you from penalties and legal hassles.",
+        "description": "Simplified & Stress-Free. Navigating the world of Goods and Services Tax (GST) and Tax Deducted at Source (TDS) can be a minefield of changing regulations and strict deadlines.",
         "features": [
-          "GST Registration: Hassle-free registration for new businesses.",
-          "Monthly/Quarterly GST Filings: Accurate and timely filing of GSTR-1, GSTR-3B, and other required returns.",
-          "GST Reconciliation: Meticulous matching of your books with GST portal data to avoid discrepancies.",
-          "TDS Calculation & Filing: Precise calculation of TDS, timely deposit, and filing of quarterly TDS returns.",
-          "Advisory: Expert guidance on any GST or TDS related queries."
-        ]
+          "GST Registration & Filings",
+          "GST Reconciliation",
+          "TDS Calculation & Filing",
+          "Expert Advisory"
+        ],
+        "image": "GST_stock_image1.jpeg"
       },
       {
         "title": "Income Tax Return (ITR) Filing",
-        "description": "For Individuals & Businesses. Maximize your tax savings and ensure accurate reporting with our professional ITR filing services. We cater to salaried individuals, freelancers, and small business owners, making tax season a breeze.",
+        "description": "For Individuals & Businesses. Maximize your tax savings and ensure accurate reporting with our professional ITR filing services for salaried individuals, freelancers, and small businesses.",
         "features": [
-          "Salaried Individuals: Helping you claim all eligible deductions and exemptions.",
-          "Business & Professional Income: Comprehensive ITR filing for proprietorships and small businesses.",
-          "Capital Gains & Other Sources: Expert handling of income from property, investments, and other sources.",
-          "Tax Planning: Proactive advice to help you legally minimize your tax liability throughout the year."
-        ]
+          "For Salaried Individuals",
+          "For Business & Professionals",
+          "Capital Gains & Other Sources",
+          "Proactive Tax Planning"
+        ],
+        "image": "ITR_stock_image2.jpeg"
       },
       {
-        "title": "Expert Bookkeeping with Tally Prime",
-        "description": "Your Virtual Accountant. This is our cornerstone service, designed for businesses that need professional accounting without the high cost of a full-time accountant or software licenses. You don't need to buy Tally or hire an accountant—we become your dedicated accounting department.",
+        "title": "Expert Bookkeeping with Tally",
+        "description": "Your Virtual Accountant. Our cornerstone service, designed for businesses that need professional accounting without the high cost of a full-time accountant or software licenses.",
         "features": [
-            "No Software Purchase Needed: We use our licensed Tally Prime software to manage your books.",
-            "Accurate Data Entry: We handle all your sales, purchases, receipts, and payment entries with precision.",
-            "Bank Reconciliation: We ensure your bank statements perfectly match your books of accounts.",
-            "Financial Reports on Demand: Gain clear insights with reports like Profit & Loss, Balance Sheet, and more."
-        ]
+          "No Software Purchase Needed",
+          "Accurate Data Entry",
+          "Bank Reconciliation",
+          "Financial Reports on Demand"
+        ],
+        "image": "Tally_stock_image3.jpeg"
       }
+    ]
+  },
+  "clients": {
+    "title": "Trusted by Growing Businesses",
+    "logos": [
+      { "src": "all_india_computers_client1.png", "alt": "All India Computers" },
+      { "src": "aakash_construction_client2.png", "alt": "Aakash Construction" },
+      { "src": "a_pro_ppf_clinet3.png", "alt": "A-Pro PPF" },
+      { "src": "detailing_devils_clinet4.png", "alt": "Detailing Devils" }
     ]
   },
   "whyChooseUs": [
@@ -86,6 +96,6 @@
   ],
   "contact": {
     "subtitle": "Take the first step towards stress-free financial management. Whether you're a growing business in need of a reliable accounting partner or an individual looking for expert tax filing, Accountants Point is here to help.",
-    "cta": "Contact us today for a FREE initial consultation!"
+    "cta": "Contact us for a FREE consultation!"
   }
 }
