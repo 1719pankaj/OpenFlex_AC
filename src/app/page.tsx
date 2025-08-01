@@ -154,20 +154,22 @@ export default function Home() {
             <NavLink active={activeSection === "contact"} onClick={() => scrollToSection("contact")}>Contact</NavLink>
           </nav>
 
+          {/* START OF CHANGE: Updated button icon colors */}
           <div className="hidden items-center gap-2 md:flex">
             <Link href={`tel:${companyData.company.phone}`}>
-              <Button variant="ghost" size="icon" className="text-[#8B0000] hover:text-white">
+              <Button variant="ghost" size="icon" className="text-white hover:text-black">
                 <Phone className="h-5 w-5" />
                 <span className="sr-only">Phone</span>
               </Button>
             </Link>
             <Link href={`mailto:${companyData.company.email}`}>
-              <Button variant="ghost" size="icon" className="text-[#8B0000] hover:text-white">
+              <Button variant="ghost" size="icon" className="text-white hover:text-black">
                 <Mail className="h-5 w-5" />
                 <span className="sr-only">Email</span>
               </Button>
             </Link>
           </div>
+          {/* END OF CHANGE */}
         </div>
       </header>
 
@@ -189,7 +191,15 @@ export default function Home() {
                     {companyData.hero.subtitle}
                   </p>
                 </div>
-                <div className="flex animate-slide-up flex-col gap-4 opacity-0 sm:flex-row" style={{ animationDelay: "0.8s", animationFillMode: "forwards" }}>
+
+                <div className="flex animate-slide-up items-center justify-center opacity-0 lg:hidden" style={{ animationDelay: "0.8s", animationFillMode: "forwards" }}>
+                  <div className="relative">
+                    <div className="absolute inset-0 animate-pulse rounded-none bg-[#8B0000] opacity-20 blur-3xl" />
+                    <Image src={heroImage} width={450} alt="Financial Compliance" className="relative rounded-none border-4 border-[#8B0000]/30 object-cover p-1" />
+                  </div>
+                </div>
+
+                <div className="flex animate-slide-up flex-col gap-4 opacity-0 sm:flex-row" style={{ animationDelay: "1.0s", animationFillMode: "forwards" }}>
                   <Button className="rounded-none border-0 bg-[#8B0000] px-8 text-white hover:bg-[#A52A2A]" onClick={() => scrollToSection("services")}>
                     {companyData.hero.ctaButtons.primary} <ChevronRight className="ml-2 h-4 w-4" />
                   </Button>
@@ -197,8 +207,8 @@ export default function Home() {
                     {companyData.hero.ctaButtons.secondary}
                   </Button>
                 </div>
-                {/* Trusted By Section - Integrated into Hero */}
-                <div className="animate-slide-up opacity-0 pt-12" style={{ animationDelay: "1.0s", animationFillMode: "forwards" }}>
+                
+                <div className="animate-slide-up opacity-0 pt-12 pb-12" style={{ animationDelay: "1.2s", animationFillMode: "forwards" }}>
                   <p className="mb-6 text-base font-semibold text-gray-300">{companyData.clients.title}</p>
                   <div className="flex flex-wrap items-center gap-x-12 gap-y-6">
                     {companyData.clients.logos.map((logo) => {
@@ -208,7 +218,8 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-              <div className="flex animate-slide-up items-center justify-center opacity-0" style={{ animationDelay: "1.2s", animationFillMode: "forwards" }}>
+              
+              <div className="hidden animate-slide-up items-center justify-center opacity-0 lg:flex" style={{ animationDelay: "1.2s", animationFillMode: "forwards" }}>
                 <div className="relative">
                   <div className="absolute inset-0 animate-pulse rounded-none bg-[#8B0000] opacity-20 blur-3xl" />
                   <Image src={heroImage} width={450} alt="Financial Compliance" className="relative rounded-none border-4 border-[#8B0000]/30 object-cover p-1" />
