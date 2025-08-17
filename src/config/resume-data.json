@@ -1,8 +1,8 @@
 {
   "company": {
-    "name": "ACCOUNTANTS POINT",
-    "email": "avitshaw@yahoo.com",
-    "phone": "+91 9123740484"
+    "name": "ALGO CONSULTANCY SERVICES PVT. LTD.",
+    "email": "info@algoconsultancy.com",
+    "phone": "+91 12345 67890"
   },
   "theme": {
     "primaryColor": "#8B0000",
@@ -13,89 +13,89 @@
     "zincBackground": "#18181b"
   },
   "hero": {
-    "badge": "Your Financial Partner",
-    "title": "Accessible Professional Financial Management",
-    "subtitle": "Bridging the gap between high-end CA services and the everyday needs of small businesses, startups, and individuals. We take the financial burden off your shoulders, so you can focus on growing your business.",
+    "badge": "Your Partners in Growth",
+    "title": "Expert Financial & Legal Guidance for Everyone",
+    "subtitle": "We bridge the gap by offering a comprehensive suite of services that are traditionally expensive and fragmented, empowering you with high-quality financial management, investment advice, and legal support at a fraction of the cost.",
     "ctaButtons": {
       "primary": "Explore Our Services",
       "secondary": "Contact Us"
     }
   },
   "about": {
-    "title": "Welcome to ACCOUNTANTS POINT,",
+    "title": "Welcome to ALGO CONSULTANCY SERVICES",
     "description": [
-      "where we believe that professional financial management should be accessible to everyone. Our firm was founded on a simple yet powerful mission: to bridge the gap between high-end CA services and the everyday needs of small businesses, startups, and individuals.",
-      "We understand the challenges you face. The complexities of GST, the deadlines for TDS, and the annual stress of ITR filing can be overwhelming. Many businesses hesitate to hire a full-time accountant or invest in expensive software like Tally Prime, leading to unmanaged books and a lack of clarity on profits and financial health. This is where we step in.",
-      "ACCOUNTANTS POINT is your dedicated financial partner. We provide the same level of expertise, precision, and diligence you would expect from a top-tier CA firm, but at a fraction of the cost. Our team of experienced professionals is committed to taking the financial burden off your shoulders, allowing you to focus on what you do best: growing your business. We are not just your accountants; we are a cornerstone for your financial stability and growth."
+      "ALGO CONSULTANCY SERVICES PVT. LTD. was founded on a simple yet powerful idea: to make expert financial and legal guidance accessible to everyone. We recognized a significant gap in the market—while large corporations have access to premier CA firms and investment brokers, small and medium-sized enterprises (SMEs), startups, and hardworking individuals are often priced out, left to navigate the complex world of finance and compliance alone.",
+      "This is where ALGO steps in. We are your dedicated partners, bridging the gap by offering a comprehensive suite of services that are traditionally expensive and fragmented. Our mission is to empower you with the same high-quality financial management, investment advice, and legal support that big players command, but at a fraction of the cost.",
+      "We believe that a lack of budget should never be a barrier to financial success and peace of mind. Whether you're an ambitious entrepreneur trying to track your profits, a salaried individual looking to grow your wealth, or a small business needing to stay compliant, ALGO is here to provide clear, affordable, and top-notch solutions. We are not just service providers; we are your partners in growth and financial well-being."
     ]
   },
   "services": {
-    "subtitle": "We offer a focused suite of services designed to keep your finances organized, compliant, and transparent. We handle the numbers, so you can see the clear picture of your business's success.",
+    "subtitle": "Our mission is to democratize professional financial, compliance, and investment services, making them affordable and accessible for every individual and emerging business, empowering them to achieve financial stability and growth.",
     "items": [
       {
-        "title": "GST & TDS Compliance",
-        "description": "Simplified & Stress-Free. Navigating the world of Goods and Services Tax (GST) and Tax Deducted at Source (TDS) can be a minefield of changing regulations and strict deadlines.",
+        "title": "Algo-Trading Solutions",
+        "description": "Empowering your trading strategies with cutting-edge algorithmic solutions tailored to your financial goals.",
         "features": [
-          "GST Registration & Filings",
-          "GST Reconciliation",
-          "TDS Calculation & Filing",
-          "Expert Advisory"
+          "Custom Algorithm Development",
+          "Backtesting & Optimization",
+          "Automated Execution",
+          "Risk Management"
         ],
-        "image": "GST_stock_image1.jpeg"
+        "image": "algo_trading_stock_image1.jpeg"
       },
       {
-        "title": "Income Tax Return (ITR) Filing",
-        "description": "For Individuals & Businesses. Maximize your tax savings and ensure accurate reporting with our professional ITR filing services for salaried individuals, freelancers, and small businesses.",
+        "title": "Investment & Financial Advice",
+        "description": "Expert guidance to help you grow your wealth, whether you are an individual or a business. We provide top-notch solutions for your financial success.",
         "features": [
-          "For Salaried Individuals",
-          "For Business & Professionals",
-          "Capital Gains & Other Sources",
-          "Proactive Tax Planning"
+          "Portfolio Management",
+          "Wealth Growth Strategies",
+          "Financial Planning",
+          "Market Analysis"
         ],
-        "image": "ITR_stock_image2.jpeg"
+        "image": "investment_stock_image2.jpeg"
       },
       {
-        "title": "Expert Bookkeeping with Tally",
-        "description": "Your Virtual Accountant. Our cornerstone service, designed for businesses that need professional accounting without the high cost of a full-time accountant or software licenses.",
+        "title": "Legal & Compliance Support",
+        "description": "Navigate the complex world of compliance with ease. We provide comprehensive legal support to keep your business compliant and secure.",
         "features": [
-          "No Software Purchase Needed",
-          "Accurate Data Entry",
-          "Bank Reconciliation",
-          "Financial Reports on Demand"
+          "Business Incorporation",
+          "Regulatory Compliance",
+          "Contract Review",
+          "Legal Advisory"
         ],
-        "image": "Tally_stock_image3.jpeg"
+        "image": "compliance_stock_image3.jpeg"
       }
     ]
   },
   "clients": {
-    "title": "Trusted by Growing Businesses",
+    "title": "Trusted by Individuals and Emerging Businesses",
     "logos": [
-      { "src": "all_india_computers_client1.png", "alt": "All India Computers" },
-      { "src": "aakash_construction_client2.png", "alt": "Aakash Construction" },
-      { "src": "a_pro_ppf_clinet3.png", "alt": "A-Pro PPF" },
-      { "src": "detailing_devils_clinet4.png", "alt": "Detailing Devils" }
+      { "src": "client1_logo.png", "alt": "Client 1" },
+      { "src": "client2_logo.png", "alt": "Client 2" },
+      { "src": "client3_logo.png", "alt": "Client 3" },
+      { "src": "client4_logo.png", "alt": "Client 4" }
     ]
   },
   "whyChooseUs": [
     {
-      "title": "Affordable Expertise",
-      "description": "Get access to CA-firm level knowledge and professionalism without the high price tag. We believe in fair pricing for top-quality service."
+      "title": "Accessible Expertise",
+      "description": "We make expert financial and legal guidance accessible to everyone, not just large corporations."
     },
     {
-      "title": "Your Growth Partner",
-      "description": "We are invested in your success. By keeping your finances in order, we provide the stable foundation you need to grow your business."
+      "title": "Affordable Solutions",
+      "description": "Receive high-quality financial management, investment advice, and legal support at a fraction of the traditional cost."
     },
     {
-      "title": "Clarity & Control",
-      "description": "Stop guessing about your profits. We provide you with clear, easy-to-understand reports that give you complete control over your financial destiny."
+      "title": "Partners in Growth",
+      "description": "We are not just service providers; we are your dedicated partners in growth and financial well-being."
     },
     {
-      "title": "Peace of Mind",
-      "description": "With us managing your compliance and bookkeeping, you can rest easy knowing that your financial obligations are handled correctly and on time."
+      "title": "Unwavering Commitment",
+      "description": "Our vision is to be the most trusted consultancy partner, known for our integrity and unwavering commitment to client success."
     }
   ],
   "contact": {
-    "subtitle": "Take the first step towards stress-free financial management. Whether you're a growing business in need of a reliable accounting partner or an individual looking for expert tax filing, Accountants Point is here to help.",
+    "subtitle": "Ready to achieve financial stability and growth? Take the first step towards empowered financial decision-making.",
     "cta": "Contact us for a FREE consultation!"
   }
 }

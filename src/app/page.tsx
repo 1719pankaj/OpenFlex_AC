@@ -12,29 +12,31 @@ import { Button } from "@/components/ui/button"
 import { useResumeData } from "@/hooks/useResumeData"
 import { cn } from "@/lib/utils"
 
-// Import your new images
-import brandLogo from "@/assets/brand_logo.png"
-import aboutImage from "@/assets/trading.jpg"
-import heroImage from "@/assets/Accountant_Point.png"
-import client1 from "@/assets/all_india_computers_client1.png"
-import client2 from "@/assets/aakash_construction_client2.png"
-import client3 from "@/assets/a_pro_ppf_clinet3.png"
-import client4 from "@/assets/detailing_devils_clinet4.png"
-import gstImage from "@/assets/GST_stock_image1.jpeg"
-import itrImage from "@/assets/ITR_stock_image2.jpeg"
-import tallyImage from "@/assets/Tally_stock_image3.jpeg"
+// Import new images for ALGO CONSULTANCY
+import brandLogo from "@/assets/algo_brand_logo.png" // Assumed new logo path
+import aboutImage from "@/assets/algo_about_image.jpg" // Assumed new about image path
+import heroImage from "@/assets/algo_hero_image.jpg" // Assumed new hero image path
+import algoTradingImage from "@/assets/algo_trading_stock_image1.jpeg" // Assumed new service image path
+import investmentImage from "@/assets/investment_stock_image2.jpeg" // Assumed new service image path
+import complianceImage from "@/assets/compliance_stock_image3.jpeg" // Assumed new service image path
+
+// Placeholder images for new clients
+import client1 from "@/assets/client1_logo.png"
+import client2 from "@/assets/client2_logo.png"
+import client3 from "@/assets/client3_logo.png"
+import client4 from "@/assets/client4_logo.png"
 
 const serviceImageMap: Record<string, StaticImageData> = {
-  "GST_stock_image1.jpeg": gstImage,
-  "ITR_stock_image2.jpeg": itrImage,
-  "Tally_stock_image3.jpeg": tallyImage,
+  "algo_trading_stock_image1.jpeg": algoTradingImage,
+  "investment_stock_image2.jpeg": investmentImage,
+  "compliance_stock_image3.jpeg": complianceImage,
 }
 
 const clientLogoMap: Record<string, { src: StaticImageData; alt: string }> = {
-  "all_india_computers_client1.png": { src: client1, alt: "All India Computers Logo" },
-  "aakash_construction_client2.png": { src: client2, alt: "Aakash Construction Logo" },
-  "a_pro_ppf_clinet3.png": { src: client3, alt: "A-Pro PPF Logo" },
-  "detailing_devils_clinet4.png": { src: client4, alt: "Detailing Devils Logo" },
+  "client1_logo.png": { src: client1, alt: "Client 1 Logo" },
+  "client2_logo.png": { src: client2, alt: "Client 2 Logo" },
+  "client3_logo.png": { src: client3, alt: "Client 3 Logo" },
+  "client4_logo.png": { src: client4, alt: "Client 4 Logo" },
 }
 
 export default function Home() {
@@ -154,7 +156,6 @@ export default function Home() {
             <NavLink active={activeSection === "contact"} onClick={() => scrollToSection("contact")}>Contact</NavLink>
           </nav>
 
-          {/* START OF CHANGE: Updated button icon colors */}
           <div className="hidden items-center gap-2 md:flex">
             <Link href={`tel:${companyData.company.phone}`}>
               <Button variant="ghost" size="icon" className="text-white hover:text-black">
@@ -169,7 +170,6 @@ export default function Home() {
               </Button>
             </Link>
           </div>
-          {/* END OF CHANGE */}
         </div>
       </header>
 
@@ -195,7 +195,7 @@ export default function Home() {
                 <div className="flex animate-slide-up items-center justify-center opacity-0 lg:hidden" style={{ animationDelay: "0.8s", animationFillMode: "forwards" }}>
                   <div className="relative">
                     <div className="absolute inset-0 animate-pulse rounded-none bg-[#8B0000] opacity-20 blur-3xl" />
-                    <Image src={heroImage} width={450} alt="Financial Compliance" className="relative rounded-none border-4 border-[#8B0000]/30 object-cover p-1" />
+                    <Image src={heroImage} width={450} alt="Algo Trading Consultancy" className="relative rounded-none border-4 border-[#8B0000]/30 object-cover p-1" />
                   </div>
                 </div>
 
@@ -222,7 +222,7 @@ export default function Home() {
               <div className="hidden animate-slide-up items-center justify-center opacity-0 lg:flex" style={{ animationDelay: "1.2s", animationFillMode: "forwards" }}>
                 <div className="relative">
                   <div className="absolute inset-0 animate-pulse rounded-none bg-[#8B0000] opacity-20 blur-3xl" />
-                  <Image src={heroImage} width={450} alt="Financial Compliance" className="relative rounded-none border-4 border-[#8B0000]/30 object-cover p-1" />
+                  <Image src={heroImage} width={450} alt="Financial Growth" className="relative rounded-none border-4 border-[#8B0000]/30 object-cover p-1" />
                 </div>
               </div>
             </div>
@@ -234,20 +234,16 @@ export default function Home() {
           <div className="container mx-auto max-w-full px-4 md:px-6">
             <div className="grid items-center gap-10 md:grid-cols-2">
               <div>
-                <h2 className="mb-6 text-3xl font-bold tracking-tighter sm:text-5xl">
-                  {companyData.about.title.split(" ").map((word, index) => (
-                    <span key={index}>
-                      {word === "POINT," ? <span className="text-[#8B0000]">{word}</span> : word}
-                      {index < companyData.about.title.split(" ").length - 1 && " "}
-                    </span>
-                  ))}
-                </h2>
+                 <h2 className="mb-6 text-3xl font-bold tracking-tighter sm:text-5xl">
+                    {companyData.about.title}
+                    <span className="text-[#8B0000]">.</span>
+                 </h2>
                 {companyData.about.description.map((paragraph, index) => (
                   <p key={index} className="mb-4 text-gray-300">{paragraph}</p>
                 ))}
               </div>
               <div className="relative">
-                <Image src={aboutImage} width={1000} height={600} alt="Business meeting" className="border-8 border-zinc-800 object-cover shadow-lg" />
+                <Image src={aboutImage} width={1000} height={600} alt="Algo Trading Analysis" className="border-8 border-zinc-800 object-cover shadow-lg" />
               </div>
             </div>
           </div>
@@ -272,8 +268,8 @@ export default function Home() {
         <section id="whyChooseUs" ref={whyChooseUsRef} className="w-full bg-zinc-900 py-20 md:py-32">
           <div className="container mx-auto max-w-full px-4 md:px-6">
             <div className="mb-12 flex flex-col items-center justify-center space-y-4 text-center">
-              <h2 className="text-3xl font-bold tracking-tighter text-white sm:text-5xl">Why Choose <span className="text-[#8B0000]">Us?</span></h2>
-              <p className="max-w-[900px] text-gray-400 md:text-xl/relaxed">Your dedicated financial partner for stability and growth.</p>
+              <h2 className="text-3xl font-bold tracking-tighter text-white sm:text-5xl">Why Choose <span className="text-[#8B0000]">ALGO?</span></h2>
+              <p className="max-w-[900px] text-gray-400 md:text-xl/relaxed">Your dedicated partners in growth and financial well-being.</p>
             </div>
             <div className="mx-auto max-w-3xl">
               <Accordion type="single" collapsible className="w-full">
@@ -326,6 +322,36 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        {/* --- START: NEW MAP SECTION --- */}
+        <section id="location" className="w-full bg-black py-20 md:py-32">
+            <div className="container mx-auto max-w-full px-4 md:px-6">
+                <div className="mb-12 flex flex-col items-center justify-center space-y-4 text-center">
+                    <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">Our <span className="text-[#8B0000]">Location</span></h2>
+                    <p className="max-w-[900px] text-gray-400 md:text-xl/relaxed">Find us at our office for a consultation.</p>
+                </div>
+                <div className="mx-auto max-w-7xl">
+                    {/* 
+                      IMPORTANT: Replace the `src` attribute below with the embed URL from Google Maps for the client's actual address.
+                      1. Go to Google Maps.
+                      2. Search for the business address.
+                      3. Click "Share", then "Embed a map".
+                      4. Copy the HTML and paste the `src` URL here.
+                    */}
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.019579303588!2d144.9537353153169!3d-37.81720997975195!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad65d4c2b349649%3A0xb6899234e561db11!2sFederation%20Square!5e0!3m2!1sen!2sau!4v1620192100000!5m2!1sen!2sau"
+                        width="100%"
+                        height="450"
+                        style={{ border: 0 }}
+                        allowFullScreen={true}
+                        loading="lazy"
+                        className="border-4 border-zinc-800"
+                    ></iframe>
+                </div>
+            </div>
+        </section>
+        {/* --- END: NEW MAP SECTION --- */}
+
       </main>
 
       {/* Footer */}

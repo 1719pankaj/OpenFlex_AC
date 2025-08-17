@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Accountant's Point",
-  description: "Accounts Simplified",
+  title: "ALGO CONSULTANCY SERVICES PVT. LTD.",
+  description: "Democratizing professional financial, compliance, and investment services.",
 };
 
 export default function RootLayout({
