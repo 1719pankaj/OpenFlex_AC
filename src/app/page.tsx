@@ -344,6 +344,7 @@ export default function Home() {
                         height="450"
                         style={{ border: 0 }}
                         allowFullScreen={true}
+                        title="Office Location Map"
                         loading="lazy"
                         className="border-4 border-zinc-800"
                     ></iframe>
