@@ -1,18 +1,14 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
   provider     = "postgresql"
-  url          = env("POSTGRES_URL") // Comes from Vercel
-  directUrl    = env("POSTGRES_URL_NON_POOLING") // Comes from Vercel for migrations
+  url          = env("POSTGRES_URL")
+  directUrl    = env("POSTGRES_URL_NON_POOLING")
   relationMode = "prisma"
 }
 
-// Model for Admin User authentication
 model User {
   id        Int      @id @default(autoincrement())
   email     String   @unique
@@ -20,40 +16,35 @@ model User {
   createdAt DateTime @default(now())
 }
 
-// Model for the Hero section content
 model Hero {
-  id        Int    @id @default(1) // Only one hero section
-  title     String
-  subtitle  String
-  imageUrl  String // URL from Vercel Blob
+  id       Int    @id @default(1)
+  title    String
+  subtitle String
+  imageUrl String
 }
 
-// Model for the About section content
 model About {
-  id          Int    @id @default(1) // Only one about section
+  id          Int    @id @default(1)
   title       String
   description String
-  imageUrl    String // URL from Vercel Blob
+  imageUrl    String
 }
 
-// Model for each Service
 model Service {
   id          Int    @id @default(autoincrement())
   title       String
   description String
-  features    String // Store features as a JSON string or newline-separated
-  imageUrl    String // URL from Vercel Blob
+  features    String
+  imageUrl    String
 }
 
-// Model for each Client logo
 model Client {
-  id       Int    @id @default(autoincrement())
-  name     String
-  logoUrl  String // URL from Vercel Blob
-  order    Int    @default(0)
+  id      Int    @id @default(autoincrement())
+  name    String
+  logoUrl String
+  order   Int    @default(0)
 }
 
-// Model for each FAQ item
 model Faq {
   id       Int    @id @default(autoincrement())
   question String
@@ -61,9 +52,8 @@ model Faq {
   order    Int    @default(0)
 }
 
-// Model for Contact information
 model Contact {
-  id    Int    @id @default(1) // Only one contact info set
+  id    Int    @id @default(1)
   email String
   phone String
 }

@@ -1,7 +1,6 @@
 "use client"
 
 import { useEffect, useMemo, useRef, useState } from "react"
-import type { StaticImageData } from "next/image"
 import Image from "next/image"
 import Link from "next/link"
 import { Check, ChevronRight, Mail, Menu, Phone, X } from "lucide-react"
@@ -9,38 +8,40 @@ import { Check, ChevronRight, Mail, Menu, Phone, X } from "lucide-react"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { useResumeData } from "@/hooks/useResumeData"
+import { useDatabaseData } from "@/hooks/useDatabaseData"
 import { cn } from "@/lib/utils"
 
-// Import new images for ALGO CONSULTANCY
-import brandLogo from "@/assets/algo_brand_logo.png" // Assumed new logo path
-import aboutImage from "@/assets/algo_about_image.jpg" // Assumed new about image path
-import heroImage from "@/assets/algo_hero_image.jpg" // Assumed new hero image path
-import algoTradingImage from "@/assets/algo_trading_stock_image1.jpeg" // Assumed new service image path
-import investmentImage from "@/assets/investment_stock_image2.jpeg" // Assumed new service image path
-import complianceImage from "@/assets/compliance_stock_image3.jpeg" // Assumed new service image path
+// Import only the images you actually use
+import brandLogo from "@/assets/algo_brand_logo.png"
+import aboutImage from "@/assets/algo_about_image.jpg"
+import heroImage from "@/assets/algo_hero_image.jpg"
+// Remove unused service images since you're using database data now
+// import algoTradingImage from "@/assets/algo_trading_stock_image1.jpeg"
+// import investmentImage from "@/assets/investment_stock_image2.jpeg"
+// import complianceImage from "@/assets/compliance_stock_image3.jpeg"
 
-// Placeholder images for new clients
-import client1 from "@/assets/client1_logo.png"
-import client2 from "@/assets/client2_logo.png"
-import client3 from "@/assets/client3_logo.png"
-import client4 from "@/assets/client4_logo.png"
+// Remove unused client imports since you're using database data now
+// import client1 from "@/assets/client1_logo.png"
+// import client2 from "@/assets/client2_logo.png"
+// import client3 from "@/assets/client3_logo.png"
+// import client4 from "@/assets/client4_logo.png"
 
-const serviceImageMap: Record<string, StaticImageData> = {
-  "algo_trading_stock_image1.jpeg": algoTradingImage,
-  "investment_stock_image2.jpeg": investmentImage,
-  "compliance_stock_image3.jpeg": complianceImage,
-}
+// Remove unused maps since you're using database data
+// const serviceImageMap: Record<string, StaticImageData> = {
+//   "algo_trading_stock_image1.jpeg": algoTradingImage,
+//   "investment_stock_image2.jpeg": investmentImage,
+//   "compliance_stock_image3.jpeg": complianceImage,
+// }
 
-const clientLogoMap: Record<string, { src: StaticImageData; alt: string }> = {
-  "client1_logo.png": { src: client1, alt: "Client 1 Logo" },
-  "client2_logo.png": { src: client2, alt: "Client 2 Logo" },
-  "client3_logo.png": { src: client3, alt: "Client 3 Logo" },
-  "client4_logo.png": { src: client4, alt: "Client 4 Logo" },
-}
+// const clientLogoMap: Record<string, { src: StaticImageData; alt: string }> = {
+//   "client1_logo.png": { src: client1, alt: "Client 1 Logo" },
+//   "client2_logo.png": { src: client2, alt: "Client 2 Logo" },
+//   "client3_logo.png": { src: client3, alt: "Client 3 Logo" },
+//   "client4_logo.png": { src: client4, alt: "Client 4 Logo" },
+// }
 
 export default function Home() {
-  const { data: companyData, isLoading, error } = useResumeData()
+  const { hero, about, services, clients, faqs, contacts, isLoading, error } = useDatabaseData()
   const [activeSection, setActiveSection] = useState("hero")
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [scrollY, setScrollY] = useState(0)
@@ -104,12 +105,12 @@ export default function Home() {
     )
   }
 
-  if (error || !companyData) {
+  if (error || (!hero && !about && !services.length)) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-black text-white">
         <div className="text-center">
           <p className="mb-4 text-red-400">Error: {error || "Failed to load company data"}</p>
-          <p>Please check the configuration file.</p>
+          <p>Please check the database connection.</p>
         </div>
       </div>
     )
@@ -126,9 +127,9 @@ export default function Home() {
       >
         <div className="container mx-auto flex h-20 max-w-full items-center justify-between px-4 md:px-6">
           <Link href="/" className="flex items-center gap-3">
-            <Image src={brandLogo} alt={`${companyData.company.name} logo`} height={40} />
+            <Image src={brandLogo} alt="ALGO CONSULTANCY logo" height={40} />
             <span className="hidden font-bold text-xl sm:inline">
-              {companyData.company.name}
+              ALGO CONSULTANCY
               <span className="text-[#8B0000]">.</span>
             </span>
           </Link>
@@ -157,18 +158,22 @@ export default function Home() {
           </nav>
 
           <div className="hidden items-center gap-2 md:flex">
-            <Link href={`tel:${companyData.company.phone}`}>
-              <Button variant="ghost" size="icon" className="text-white hover:text-black">
-                <Phone className="h-5 w-5" />
-                <span className="sr-only">Phone</span>
-              </Button>
-            </Link>
-            <Link href={`mailto:${companyData.company.email}`}>
-              <Button variant="ghost" size="icon" className="text-white hover:text-black">
-                <Mail className="h-5 w-5" />
-                <span className="sr-only">Email</span>
-              </Button>
-            </Link>
+            {contacts && (
+              <>
+                <Link href={`tel:${contacts.phone}`}>
+                  <Button variant="ghost" size="icon" className="text-white hover:text-black">
+                    <Phone className="h-5 w-5" />
+                    <span className="sr-only">Phone</span>
+                  </Button>
+                </Link>
+                <Link href={`mailto:${contacts.email}`}>
+                  <Button variant="ghost" size="icon" className="text-white hover:text-black">
+                    <Mail className="h-5 w-5" />
+                    <span className="sr-only">Email</span>
+                  </Button>
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </header>
@@ -181,48 +186,75 @@ export default function Home() {
               <div className="flex flex-col justify-center space-y-8">
                 <div className="space-y-4">
                   <div className="inline-block animate-slide-up opacity-0" style={{ animationDelay: "0.2s", animationFillMode: "forwards" }}>
-                    <Badge className="mb-4 border-[#c9a6a6] bg-[#f2e6e6] px-4 py-1 text-sm text-black">{companyData.hero.badge}</Badge>
+                    <Badge className="mb-4 border-[#c9a6a6] bg-[#f2e6e6] px-4 py-1 text-sm text-black">Professional Services</Badge>
                   </div>
                   <h1 className="animate-slide-up text-4xl font-bold tracking-tighter opacity-0 sm:text-6xl xl:text-7xl/none" style={{ animationDelay: "0.4s", animationFillMode: "forwards" }}>
-                    {companyData.hero.title}
+                    {hero?.title || "Expert Financial & Legal Guidance for Everyone"}
                     <span className="text-[#8B0000]">.</span>
                   </h1>
                   <p className="max-w-[600px] animate-slide-up text-gray-400 opacity-0 md:text-xl" style={{ animationDelay: "0.6s", animationFillMode: "forwards" }}>
-                    {companyData.hero.subtitle}
+                    {hero?.subtitle || "We provide comprehensive financial and legal services to help you navigate complex challenges and achieve your goals."}
                   </p>
                 </div>
 
                 <div className="flex animate-slide-up items-center justify-center opacity-0 lg:hidden" style={{ animationDelay: "0.8s", animationFillMode: "forwards" }}>
                   <div className="relative">
                     <div className="absolute inset-0 animate-pulse rounded-none bg-[#8B0000] opacity-20 blur-3xl" />
-                    <Image src={heroImage} width={450} alt="Algo Trading Consultancy" className="relative rounded-none border-4 border-[#8B0000]/30 object-cover p-1" />
+                    <Image 
+                      src={hero?.imageUrl || heroImage} 
+                      width={450} 
+                      height={300}
+                      alt="Algo Trading Consultancy" 
+                      className="relative rounded-none border-4 border-[#8B0000]/30 object-cover p-1" 
+                    />
                   </div>
                 </div>
 
                 <div className="flex animate-slide-up flex-col gap-4 opacity-0 sm:flex-row" style={{ animationDelay: "1.0s", animationFillMode: "forwards" }}>
                   <Button className="rounded-none border-0 bg-[#8B0000] px-8 text-white hover:bg-[#A52A2A]" onClick={() => scrollToSection("services")}>
-                    {companyData.hero.ctaButtons.primary} <ChevronRight className="ml-2 h-4 w-4" />
+                    Our Services <ChevronRight className="ml-2 h-4 w-4" />
                   </Button>
                   <Button className="rounded-none border-0 bg-[#8B0000] px-8 text-white hover:bg-[#A52A2A]" onClick={() => scrollToSection("contact")}>
-                    {companyData.hero.ctaButtons.secondary}
+                    Get Started
                   </Button>
                 </div>
                 
-                <div className="animate-slide-up opacity-0 pt-12 pb-12" style={{ animationDelay: "1.2s", animationFillMode: "forwards" }}>
-                  <p className="mb-6 text-base font-semibold text-gray-300">{companyData.clients.title}</p>
-                  <div className="flex flex-wrap items-center gap-x-12 gap-y-6">
-                    {companyData.clients.logos.map((logo) => {
-                      const clientLogo = clientLogoMap[logo.src]
-                      return <Image key={logo.alt} src={clientLogo.src} alt={clientLogo.alt} height={100} className="object-contain" />
-                    })}
+                {clients.length > 0 && (
+                  <div className="animate-slide-up opacity-0 pt-12 pb-12" style={{ animationDelay: "1.2s", animationFillMode: "forwards" }}>
+                    <p className="mb-6 text-base font-semibold text-gray-300">Trusted by Industry Leaders</p>
+                    <div className="flex flex-wrap items-center gap-x-12 gap-y-6">
+                      {clients.map((client) => (
+                        <div key={client.id} className="h-20 w-32 flex items-center justify-center">
+                          {client.logoUrl ? (
+                            <Image
+                              src={client.logoUrl}
+                              alt={`${client.name} logo`}
+                              width={128}
+                              height={80}
+                              className="max-h-full max-w-full object-contain"
+                            />
+                          ) : (
+                            <div className="h-20 w-32 bg-gray-700 rounded flex items-center justify-center">
+                              <span className="text-gray-400 text-sm">{client.name}</span>
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
               
               <div className="hidden animate-slide-up items-center justify-center opacity-0 lg:flex" style={{ animationDelay: "1.2s", animationFillMode: "forwards" }}>
                 <div className="relative">
                   <div className="absolute inset-0 animate-pulse rounded-none bg-[#8B0000] opacity-20 blur-3xl" />
-                  <Image src={heroImage} width={450} alt="Financial Growth" className="relative rounded-none border-4 border-[#8B0000]/30 object-cover p-1" />
+                  <Image 
+                    src={hero?.imageUrl || heroImage} 
+                    width={450} 
+                    height={300}
+                    alt="Financial Growth" 
+                    className="relative rounded-none border-4 border-[#8B0000]/30 object-cover p-1" 
+                  />
                 </div>
               </div>
             </div>
@@ -235,15 +267,21 @@ export default function Home() {
             <div className="grid items-center gap-10 md:grid-cols-2">
               <div>
                  <h2 className="mb-6 text-3xl font-bold tracking-tighter sm:text-5xl">
-                    {companyData.about.title}
+                    {about?.title || "About Our Services"}
                     <span className="text-[#8B0000]">.</span>
                  </h2>
-                {companyData.about.description.map((paragraph, index) => (
-                  <p key={index} className="mb-4 text-gray-300">{paragraph}</p>
-                ))}
+                <p className="mb-4 text-gray-300">
+                  {about?.description || "We are a team of experienced professionals dedicated to providing exceptional financial and legal guidance. Our mission is to help individuals and businesses make informed decisions and achieve their objectives."}
+                </p>
               </div>
               <div className="relative">
-                <Image src={aboutImage} width={1000} height={600} alt="Algo Trading Analysis" className="border-8 border-zinc-800 object-cover shadow-lg" />
+                <Image 
+                  src={about?.imageUrl || aboutImage} 
+                  width={1000} 
+                  height={600} 
+                  alt="Algo Trading Analysis" 
+                  className="border-8 border-zinc-800 object-cover shadow-lg" 
+                />
               </div>
             </div>
           </div>
@@ -254,11 +292,17 @@ export default function Home() {
           <div className="container mx-auto max-w-full px-4 md:px-6">
             <div className="mb-12 flex flex-col items-center justify-center space-y-4 text-center">
               <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">Our <span className="text-[#8B0000]">Services</span></h2>
-              <p className="max-w-[900px] text-gray-400 md:text-xl/relaxed">{companyData.services.subtitle}</p>
+              <p className="max-w-[900px] text-gray-400 md:text-xl/relaxed">Comprehensive solutions tailored to your needs</p>
             </div>
             <div className="mx-auto grid w-full max-w-7xl grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-              {companyData.services.items.map((service) => (
-                <ServiceCard key={service.title} title={service.title} description={service.description} features={service.features} image={serviceImageMap[service.image]} />
+              {services.map((service) => (
+                <ServiceCard 
+                  key={service.id} 
+                  title={service.title} 
+                  description={service.description} 
+                  features={service.features.split(', ')} 
+                  imageUrl={service.imageUrl}
+                />
               ))}
             </div>
           </div>
@@ -266,21 +310,23 @@ export default function Home() {
 
         {/* Why Choose Us Section */}
         <section id="whyChooseUs" ref={whyChooseUsRef} className="w-full bg-zinc-900 py-20 md:py-32">
-          <div className="container mx-auto max-w-full px-4 md:px-6">
-            <div className="mb-12 flex flex-col items-center justify-center space-y-4 text-center">
-              <h2 className="text-3xl font-bold tracking-tighter text-white sm:text-5xl">Why Choose <span className="text-[#8B0000]">ALGO?</span></h2>
-              <p className="max-w-[900px] text-gray-400 md:text-xl/relaxed">Your dedicated partners in growth and financial well-being.</p>
-            </div>
-            <div className="mx-auto max-w-3xl">
-              <Accordion type="single" collapsible className="w-full">
-                {companyData.whyChooseUs.map((item, index) => (
-                  <AccordionItem key={item.title} value={`item-${index}`} className="border-b border-gray-700">
-                    <AccordionTrigger className="py-4 text-left font-medium text-white no-underline hover:text-[#8B0000] hover:no-underline">{item.title}</AccordionTrigger>
-                    <AccordionContent className="pb-4 text-gray-300">{item.description}</AccordionContent>
-                  </AccordionItem>
-                ))}
-              </Accordion>
-            </div>
+          <div className="mb-12 flex flex-col items-center justify-center space-y-4 text-center">
+            <h2 className="text-3xl font-bold tracking-tighter text-white sm:text-5xl">Why Choose <span className="text-[#8B0000]">ALGO?</span></h2>
+            <p className="max-w-[900px] text-gray-400 md:text-xl/relaxed">Your dedicated partners in growth and financial well-being.</p>
+          </div>
+          <div className="mx-auto max-w-3xl">
+            <Accordion type="single" collapsible className="w-full">
+              {faqs.map((faq, index) => (
+                <AccordionItem key={faq.id} value={`item-${index}`} className="border-b border-gray-700">
+                  <AccordionTrigger className="py-4 text-left font-medium text-white no-underline hover:text-[#8B0000] hover:no-underline">
+                    {faq.question}
+                  </AccordionTrigger>
+                  <AccordionContent className="pb-4 text-gray-300">
+                    {faq.answer}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
           </div>
         </section>
 
@@ -289,41 +335,43 @@ export default function Home() {
           <div className="container mx-auto max-w-full px-4 md:px-6">
             <div className="mb-12 flex flex-col items-center justify-center space-y-4 text-center">
               <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">Get In <span className="text-[#8B0000]">Touch</span></h2>
-              <p className="max-w-[900px] text-gray-400 md:text-xl/relaxed">{companyData.contact.subtitle}</p>
+              <p className="max-w-[900px] text-gray-400 md:text-xl/relaxed">Ready to get started? Contact us today.</p>
             </div>
-            <div className="mx-auto max-w-2xl bg-zinc-900 p-8">
-              <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-                <div className="flex items-center gap-4">
-                  <div className="rounded-full bg-[#8B0000] p-3">
-                    <Phone className="h-6 w-6 text-white" />
+            {contacts && (
+              <div className="mx-auto max-w-2xl bg-zinc-900 p-8">
+                <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+                  <div className="flex items-center gap-4">
+                    <div className="rounded-full bg-[#8B0000] p-3">
+                      <Phone className="h-6 w-6 text-white" />
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-400">Phone</p>
+                      <a href={`tel:${contacts.phone}`} className="hover:text-[#8B0000]">{contacts.phone}</a>
+                    </div>
                   </div>
-                  <div>
-                    <p className="text-sm text-gray-400">Phone</p>
-                    <a href={`tel:${companyData.company.phone}`} className="hover:text-[#8B0000]">{companyData.company.phone}</a>
+                  <div className="flex items-center gap-4">
+                    <div className="rounded-full bg-[#8B0000] p-3">
+                      <Mail className="h-6 w-6 text-white" />
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-400">Email</p>
+                      <a href={`mailto:${contacts.email}`} className="hover:text-[#8B0000]">{contacts.email}</a>
+                    </div>
                   </div>
                 </div>
-                <div className="flex items-center gap-4">
-                  <div className="rounded-full bg-[#8B0000] p-3">
-                    <Mail className="h-6 w-6 text-white" />
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-400">Email</p>
-                    <a href={`mailto:${companyData.company.email}`} className="hover:text-[#8B0000]">{companyData.company.email}</a>
-                  </div>
+                <div className="mt-8 text-center">
+                  <Button asChild className="rounded-none border-0 bg-[#8B0000] px-8 text-white hover:bg-[#A52A2A]">
+                    <Link href={`mailto:${contacts.email}?subject=Consultation Request`}>
+                      Request Consultation
+                    </Link>
+                  </Button>
                 </div>
               </div>
-              <div className="mt-8 text-center">
-                <Button asChild className="rounded-none border-0 bg-[#8B0000] px-8 text-white hover:bg-[#A52A2A]">
-                  <Link href={`mailto:${companyData.company.email}?subject=Consultation Request`}>
-                    {companyData.contact.cta}
-                  </Link>
-                </Button>
-              </div>
-            </div>
+            )}
           </div>
         </section>
 
-        {/* --- START: NEW MAP SECTION --- */}
+        {/* Location Section */}
         <section id="location" className="w-full bg-black py-20 md:py-32">
             <div className="container mx-auto max-w-full px-4 md:px-6">
                 <div className="mb-12 flex flex-col items-center justify-center space-y-4 text-center">
@@ -331,13 +379,6 @@ export default function Home() {
                     <p className="max-w-[900px] text-gray-400 md:text-xl/relaxed">Find us at our office for a consultation.</p>
                 </div>
                 <div className="mx-auto max-w-7xl">
-                    {/* 
-                      IMPORTANT: Replace the `src` attribute below with the embed URL from Google Maps for the client's actual address.
-                      1. Go to Google Maps.
-                      2. Search for the business address.
-                      3. Click "Share", then "Embed a map".
-                      4. Copy the HTML and paste the `src` URL here.
-                    */}
                     <iframe
                         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.019579303588!2d144.9537353153169!3d-37.81720997975195!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad65d4c2b349649%3A0xb6899234e561db11!2sFederation%20Square!5e0!3m2!1sen!2sau!4v1620192100000!5m2!1sen!2sau"
                         width="100%"
@@ -351,28 +392,28 @@ export default function Home() {
                 </div>
             </div>
         </section>
-        {/* --- END: NEW MAP SECTION --- */}
-
       </main>
 
       {/* Footer */}
       <footer className="w-full border-t border-gray-800 bg-black py-8">
         <div className="container mx-auto flex max-w-full flex-col items-center justify-between gap-4 px-4 md:flex-row md:px-6">
-          <p className="text-sm text-gray-500">© {new Date().getFullYear()} {companyData.company.name}. All rights reserved.</p>
-          <div className="flex items-center gap-4">
-            <Button asChild variant="ghost" size="icon" className="text-[#8B0000] hover:text-white">
-              <Link href={`tel:${companyData.company.phone}`}>
-                <Phone className="h-4 w-4" />
-                <span className="sr-only">Phone</span>
-              </Link>
-            </Button>
-            <Button asChild variant="ghost" size="icon" className="text-[#8B0000] hover:text-white">
-              <Link href={`mailto:${companyData.company.email}`}>
-                <Mail className="h-4 w-4" />
-                <span className="sr-only">Email</span>
-              </Link>
-            </Button>
-          </div>
+          <p className="text-sm text-gray-500">© {new Date().getFullYear()} ALGO CONSULTANCY. All rights reserved.</p>
+          {contacts && (
+            <div className="flex items-center gap-4">
+              <Button asChild variant="ghost" size="icon" className="text-[#8B0000] hover:text-white">
+                <Link href={`tel:${contacts.phone}`}>
+                  <Phone className="h-4 w-4" />
+                  <span className="sr-only">Phone</span>
+                </Link>
+              </Button>
+              <Button asChild variant="ghost" size="icon" className="text-[#8B0000] hover:text-white">
+                <Link href={`mailto:${contacts.email}`}>
+                  <Mail className="h-4 w-4" />
+                  <span className="sr-only">Email</span>
+                </Link>
+              </Button>
+            </div>
+          )}
         </div>
       </footer>
     </div>
@@ -388,10 +429,16 @@ function NavLink({ active, children, onClick }: { active: boolean; children: Rea
   )
 }
 
-function ServiceCard({ title, description, features, image }: { title: string; description: string; features: string[]; image: StaticImageData }) {
+function ServiceCard({ title, description, features, imageUrl }: { title: string; description: string; features: string[]; imageUrl: string }) {
   return (
     <div className="flex h-full flex-col border border-zinc-800 bg-zinc-900 transition-colors duration-300 hover:border-[#8B0000]">
-      <Image src={image} alt={title} className="h-48 w-full object-cover" />
+      <div className="h-48 w-full bg-gray-700 flex items-center justify-center">
+        {imageUrl ? (
+          <Image src={imageUrl} alt={title} width={400} height={200} className="h-full w-full object-cover" />
+        ) : (
+          <span className="text-gray-400 text-sm">No Image</span>
+        )}
+      </div>
       <div className="flex flex-grow flex-col p-6">
         <h3 className="text-xl font-bold text-white">{title}</h3>
         <p className="mt-2 flex-grow text-gray-400">{description}</p>
