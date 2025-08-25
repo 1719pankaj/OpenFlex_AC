@@ -12,7 +12,7 @@ import { useDatabaseData } from "@/hooks/useDatabaseData"
 import { cn } from "@/lib/utils"
 
 
-import brandLogo from "@/assets/algo_brand_logo.png"
+import brandLogo from "@/assets/oflex_ac.png"
 import aboutImage from "@/assets/algo_about_image.jpg"
 import heroImage from "@/assets/algo_hero_image.jpg"
 
@@ -356,12 +356,12 @@ export default function Home() {
                 </div>
                 <div className="mx-auto max-w-7xl">
                     <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.019579303588!2d144.9537353153169!3d-37.81720997975195!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad65d4c2b349649%3A0xb6899234e561db11!2sFederation%20Square!5e0!3m2!1sen!2sau!4v1620192100000!5m2!1sen!2sau"
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14758.123456789!2d88.45678901234567!3d22.98765432109876!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39f882db4908f123%3A0x1234567890abcdef!2sKanchrapara%2C%20West%20Bengal%2C%20India!5e0!3m2!1sen!2sin!4v1234567890123!5m2!1sen!2sin"
                         width="100%"
                         height="450"
                         style={{ border: 0 }}
                         allowFullScreen={true}
-                        title="Office Location Map"
+                        title="Office Location Map - Kanchrapara, West Bengal"
                         loading="lazy"
                         className="border-4 border-zinc-800"
                     ></iframe>

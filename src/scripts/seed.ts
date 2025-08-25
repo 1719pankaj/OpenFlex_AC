@@ -5,7 +5,7 @@ const prisma = new PrismaClient()
 
 async function main() {
   // Create admin user
-  const hashedPassword = await bcrypt.hash("admin123", 10)
+  const hashedPassword = await bcrypt.hash("7y9876tr78it6493", 10)
   
   await prisma.user.upsert({
     where: { email: "admin@openflex.com" },

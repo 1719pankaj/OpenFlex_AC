@@ -14,7 +14,7 @@ export default function AdminLayout({
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault()
-    if (password === "admin123") {
+    if (password === "7y9876tr78it6493") {
       setIsAuthenticated(true)
     } else {
       alert("Wrong password!")
@@ -42,9 +42,6 @@ export default function AdminLayout({
               Enter Admin
             </button>
           </form>
-          <p className="text-sm text-gray-500 text-center mt-4">
-            Password: admin123
-          </p>
         </div>
       </div>
     )
