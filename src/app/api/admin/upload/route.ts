@@ -1,5 +1,6 @@
 // src/app/api/admin/upload/route.ts
 import { NextRequest, NextResponse } from "next/server"
+import { put } from '@vercel/blob'
 import { writeFile, mkdir } from "fs/promises"
 import { join } from "path"
 
@@ -17,19 +18,33 @@ export async function POST(request: NextRequest) {
 
     console.log("File received:", file.name, file.size, file.type)
     
-    const uploadsDir = join(process.cwd(), "public", "uploads")
-    await mkdir(uploadsDir, { recursive: true })
+    // Use Vercel Blob in production, local filesystem in development
+    if (process.env.NODE_ENV === 'production') {
+      // Production: Upload to Vercel Blob
+      const blob = await put(file.name, file, {
+        access: 'public',
+        token: process.env.READ_WRITE_TOKEN, // Use the correct env var name
+      })
+      console.log("Upload successful to Blob, URL:", blob.url)
+      return NextResponse.json({ url: blob.url })
+    } else {
+      // Development: Local file storage
+      const uploadsDir = join(process.cwd(), "public", "uploads")
+      await mkdir(uploadsDir, { recursive: true })
 
-    const timestamp = Date.now()
-    const filename = `${timestamp}-${file.name}`
-    const filepath = join(uploadsDir, filename)
+      const timestamp = Date.now()
+      const filename = `${timestamp}-${file.name}`
+      const filepath = join(uploadsDir, filename)
 
-    const bytes = await file.arrayBuffer()
-    const buffer = Buffer.from(bytes)
-    await writeFile(filepath, buffer)
+      const bytes = await file.arrayBuffer()
+      const buffer = Buffer.from(bytes)
+      await writeFile(filepath, buffer)
 
-    const url = `/uploads/${filename}`
-    return NextResponse.json({ url })
+      const url = `/uploads/${filename}`
+      console.log("Upload successful locally, URL:", url)
+      return NextResponse.json({ url })
+    }
+    
   } catch (error) {
     console.error("Upload error details:", error)
     return NextResponse.json({ 
