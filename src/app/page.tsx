@@ -11,34 +11,10 @@ import { Button } from "@/components/ui/button"
 import { useDatabaseData } from "@/hooks/useDatabaseData"
 import { cn } from "@/lib/utils"
 
-// Import only the images you actually use
+
 import brandLogo from "@/assets/algo_brand_logo.png"
 import aboutImage from "@/assets/algo_about_image.jpg"
 import heroImage from "@/assets/algo_hero_image.jpg"
-// Remove unused service images since you're using database data now
-// import algoTradingImage from "@/assets/algo_trading_stock_image1.jpeg"
-// import investmentImage from "@/assets/investment_stock_image2.jpeg"
-// import complianceImage from "@/assets/compliance_stock_image3.jpeg"
-
-// Remove unused client imports since you're using database data now
-// import client1 from "@/assets/client1_logo.png"
-// import client2 from "@/assets/client2_logo.png"
-// import client3 from "@/assets/client3_logo.png"
-// import client4 from "@/assets/client4_logo.png"
-
-// Remove unused maps since you're using database data
-// const serviceImageMap: Record<string, StaticImageData> = {
-//   "algo_trading_stock_image1.jpeg": algoTradingImage,
-//   "investment_stock_image2.jpeg": investmentImage,
-//   "compliance_stock_image3.jpeg": complianceImage,
-// }
-
-// const clientLogoMap: Record<string, { src: StaticImageData; alt: string }> = {
-//   "client1_logo.png": { src: client1, alt: "Client 1 Logo" },
-//   "client2_logo.png": { src: client2, alt: "Client 2 Logo" },
-//   "client3_logo.png": { src: client3, alt: "Client 3 Logo" },
-//   "client4_logo.png": { src: client4, alt: "Client 4 Logo" },
-// }
 
 export default function Home() {
   const { hero, about, services, clients, faqs, contacts, isLoading, error } = useDatabaseData()
