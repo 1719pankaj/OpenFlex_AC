@@ -1,6 +1,7 @@
 // src/app/api/admin/upload/route.ts
 import { NextRequest, NextResponse } from "next/server"
-import { put } from "@vercel/blob"
+import { writeFile, mkdir } from "fs/promises"
+import { join } from "path"
 
 export async function POST(request: NextRequest) {
   try {
@@ -30,66 +31,39 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Check if Vercel Blob token is available
-    if (!process.env.BLOB_READ_WRITE_TOKEN) {
-      console.error("BLOB_READ_WRITE_TOKEN environment variable not found")
-      return NextResponse.json(
-        { error: "Storage configuration error" },
-        { status: 500 }
-      )
-    }
+    // Create uploads directory if it doesn't exist
+    const uploadsDir = join(process.cwd(), "public", "uploads")
+    await mkdir(uploadsDir, { recursive: true })
 
     // Generate unique filename to avoid conflicts
     const timestamp = Date.now()
     const randomSuffix = Math.random().toString(36).substring(2, 8)
     const fileExtension = file.name.split('.').pop() || 'jpg'
     const uniqueFilename = `${timestamp}_${randomSuffix}.${fileExtension}`
+    const filepath = join(uploadsDir, uniqueFilename)
 
-    console.log("Uploading file:", {
+    // Convert file to buffer and save
+    const bytes = await file.arrayBuffer()
+    const buffer = Buffer.from(bytes)
+    await writeFile(filepath, buffer)
+
+    // Return the public URL
+    const url = `/uploads/${uniqueFilename}`
+    
+    console.log("File uploaded successfully:", {
       originalName: file.name,
       size: file.size,
-      type: file.type,
-      uniqueName: uniqueFilename
+      uniqueName: uniqueFilename,
+      url: url
     })
-
-    // Upload to Vercel Blob
-    const blob = await put(uniqueFilename, file, {
-      access: 'public',
-      handleUploadUrl: `${process.env.VERCEL_URL || 'http://localhost:3000'}/api/admin/upload`,
-    })
-
-    console.log("Upload successful:", {
-      url: blob.url,
-      pathname: blob.pathname
-    })
-
+    
     return NextResponse.json({
-      url: blob.url,
+      url,
       success: true,
       filename: uniqueFilename
     })
   } catch (error) {
-    console.error("Upload error details:", {
-      message: error.message,
-      stack: error.stack,
-      name: error.name
-    })
-    
-    // Provide more specific error messages
-    if (error.message?.includes('token')) {
-      return NextResponse.json(
-        { error: "Storage authentication failed" },
-        { status: 500 }
-      )
-    }
-    
-    if (error.message?.includes('network') || error.message?.includes('fetch')) {
-      return NextResponse.json(
-        { error: "Network error during upload" },
-        { status: 500 }
-      )
-    }
-
+    console.error("Upload error:", error)
     return NextResponse.json(
       { error: "Failed to upload file" },
       { status: 500 }
