@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "OpenFlex AC - Professional Services",
+  title: "ALGO CONSULTANCY - Professional Services",
   description: "Democratizing professional financial, compliance, and investment services.",
   icons: {
     icon: [
