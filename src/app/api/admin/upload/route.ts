@@ -1,7 +1,10 @@
 // src/app/api/admin/upload/route.ts
 import { NextRequest, NextResponse } from "next/server"
+import { put } from '@vercel/blob'
 import { writeFile, mkdir } from "fs/promises"
 import { join } from "path"
+
+export const runtime = 'nodejs'
 
 export async function POST(request: NextRequest) {
   try {
@@ -9,64 +12,44 @@ export async function POST(request: NextRequest) {
     const file = formData.get("file") as File
     
     if (!file) {
-      return NextResponse.json(
-        { error: "No file provided" },
-        { status: 400 }
-      )
+      console.log("No file provided")
+      return NextResponse.json({ error: "No file provided" }, { status: 400 })
     }
 
-    // Validate file size (10MB limit)
-    if (file.size > 10 * 1024 * 1024) {
-      return NextResponse.json(
-        { error: "File size must be less than 10MB" },
-        { status: 400 }
-      )
-    }
-
-    // Validate file type
-    if (!file.type.startsWith("image/")) {
-      return NextResponse.json(
-        { error: "Only image files are allowed" },
-        { status: 400 }
-      )
-    }
-
-    // Create uploads directory if it doesn't exist
-    const uploadsDir = join(process.cwd(), "public", "uploads")
-    await mkdir(uploadsDir, { recursive: true })
-
-    // Generate unique filename to avoid conflicts
-    const timestamp = Date.now()
-    const randomSuffix = Math.random().toString(36).substring(2, 8)
-    const fileExtension = file.name.split('.').pop() || 'jpg'
-    const uniqueFilename = `${timestamp}_${randomSuffix}.${fileExtension}`
-    const filepath = join(uploadsDir, uniqueFilename)
-
-    // Convert file to buffer and save
-    const bytes = await file.arrayBuffer()
-    const buffer = Buffer.from(bytes)
-    await writeFile(filepath, buffer)
-
-    // Return the public URL
-    const url = `/uploads/${uniqueFilename}`
+    console.log("File received:", file.name, file.size, file.type)
     
-    console.log("File uploaded successfully:", {
-      originalName: file.name,
-      size: file.size,
-      uniqueName: uniqueFilename,
-      url: url
-    })
+    // Use Vercel Blob in production, local filesystem in development
+    if (process.env.NODE_ENV === 'production') {
+      // Production: Upload to Vercel Blob
+      const blob = await put(file.name, file, {
+        access: 'public',
+        token: process.env.READ_WRITE_TOKEN, // Use the correct env var name
+      })
+      console.log("Upload successful to Blob, URL:", blob.url)
+      return NextResponse.json({ url: blob.url })
+    } else {
+      // Development: Local file storage
+      const uploadsDir = join(process.cwd(), "public", "uploads")
+      await mkdir(uploadsDir, { recursive: true })
+
+      const timestamp = Date.now()
+      const filename = `${timestamp}-${file.name}`
+      const filepath = join(uploadsDir, filename)
+
+      const bytes = await file.arrayBuffer()
+      const buffer = Buffer.from(bytes)
+      await writeFile(filepath, buffer)
+
+      const url = `/uploads/${filename}`
+      console.log("Upload successful locally, URL:", url)
+      return NextResponse.json({ url })
+    }
     
-    return NextResponse.json({
-      url,
-      success: true,
-      filename: uniqueFilename
-    })
   } catch (error) {
-    console.error("Upload error:", error)
-    return NextResponse.json(
-      { error: "Failed to upload file" },
-      { status: 500 }
-    )
+    console.error("Upload error details:", error)
+    return NextResponse.json({ 
+      error: "Failed to upload file",
+      details: error instanceof Error ? error.message : "Unknown error"
+    }, { status: 500 })
   }
 }
